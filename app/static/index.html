@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Spam Classifier Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 720px; margin: 40px auto; }
+    textarea { width: 100%; height: 140px; }
+    button { padding: 10px 16px; margin-top: 8px; }
+    .result { margin-top: 16px; padding: 12px; border-radius: 6px; }
+    .spam { background: #ffe6e6; color: #a00; }
+    .ham  { background: #e6ffe6; color: #070; }
+  </style>
+</head>
+<body>
+  <h1>Spam Classifier — Demo</h1>
+  <p>Paste a message below, then click <strong>Check</strong>.</p>
+
+  <textarea id="msg">Congratulations! You have won a free ticket...</textarea><br/>
+  <button id="btn">Check</button>
+
+  <div id="out" class="result" style="display:none;"></div>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const out = document.getElementById('out');
+
+    btn.addEventListener('click', async () => {
+      out.style.display = 'none';
+      out.className = 'result';
+      out.textContent = 'Checking...';
+
+      const text = document.getElementById('msg').value;
+
+      try {
+        const resp = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          out.textContent = 'Error: ' + (data.error || JSON.stringify(data));
+          out.style.display = 'block';
+          return;
+        }
+
+        out.textContent = `Prediction: ${data.prediction} (label=${data.label}) — confidence: ${data.confidence}`;
+        out.classList.add(data.prediction === 'spam' ? 'spam' : 'ham');
+        out.style.display = 'block';
+      } catch (err) {
+        out.textContent = 'Request failed: ' + err;
+        out.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
