@@ -107,6 +107,10 @@ docker run -p 5000:5000 spam-classifier
 ## Deployment tips
 
 * For simple hosting use Render or Heroku (Procfile included)
+     https://spam-classifier-v2f7.onrender.com/ 
+
+  <img width="1422" height="582" alt="image" src="https://github.com/user-attachments/assets/221110ab-d822-4a2b-bf94-e3d9a1b80110" />
+
 * For production, use a WSGI server (gunicorn or waitress) behind a reverse proxy
 
 ## License & contact
