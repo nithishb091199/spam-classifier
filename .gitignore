@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+pip-wheel-metadata/
+*.egg-info/
+
+# Data
+data/
+data/*
+!data/.gitkeep
+
+# VSCode
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Mac / Windows
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
